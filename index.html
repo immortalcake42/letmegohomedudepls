@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여행지 추천</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2; /* 배경색 추가 */
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            margin-bottom: 30px;
+            background-color: #fff; /* 각 섹션의 배경색 추가 */
+            border-radius: 8px; /* 섹션에 둥근 테두리 추가 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 섹션에 그림자 효과 추가 */
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        #places-list {
+            display: none;
+        }
+        #places-list.active {
+            display: block;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>여행지 추천</h1>
+    </header>
+    
+    <main>
+        <section>
+            <h2>여행지 목록</h2>
+            <button id="toggle-list-btn">여행지 목록 보기</button>
+            <ul id="places-list">
+                <li>제주도, 대한민국</li>
+                <li>파리, 프랑스</li>
+                <li>타히티 섬, 프랑스령 폴리네시아</li>
+                <li>교토, 일본</li>
+                <li>뉴욕, 미국</li>
+                <li>상하이, 중국</li>
+                <li>로마, 이탈리아</li>
+                <li>시드니, 호주</li>
+                <li>카이로, 이집트</li>
+                <li>리스본, 포르투갈</li>
+            </ul>
+        </section>
+
+        <section>
+            <button id="recommend-btn">여행지 추천 받기</button>
+            <p id="recommended-place"></p>
+            <div id="place-details">
+                <h2 id="place-name"></h2>
+                <p id="place-description"></p>
+                <img id="place-image" src="" alt="여행지 사진">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 여행지 소개</p>
+    </footer>
+
+    <script>
+        document.getElementById('toggle-list-btn').addEventListener('click', function() {
+            var placesList = document.getElementById('places-list');
+            placesList.classList.toggle('active');
+            var buttonText = placesList.classList.contains('active') ? '여행지 목록 숨기기' : '여행지 목록 보기';
+            document.getElementById('toggle-list-btn').textContent = buttonText;
+        });
+
+        document.getElementById('recommend-btn').addEventListener('click', function() {
+            var places = [
+                { name: "제주도, 대한민국", description: "제주도는 우리나라의 아름다운 섬으로 유명합니다. 여기에는 푸른 바다, 신비로운 돌담길, 맑은 공기 등이 있어 많은 관광객들이 방문합니다.", image: "jeju.jpg" },
+                { name: "파리, 프랑스", description: "파리는 로맨틱한 분위기와 아름다운 건축물로 유명한 도시입니다. 에펠탑, 성몽마르뜨 등의 명소가 있어 많은 이들의 사랑을 받고 있습니다.", image: "paris.jpg" },
+                { name: "타히티 섬, 프랑스령 폴리네시아", description: "타히티 섬은 그림 같은 해변과 푸른 바다가 유명한 곳입니다. 많은 사람들이 이곳을 방문하여 여유로운 휴식을 즐깁니다.", image: "tahiti.jpg" },
+                { name: "교토, 일본", description: "교토는 일본의 옛 수도로 아름다운 사원과 신사가 많이 있습니다. 또한 전통적인 문화와 예술이 풍부한 곳으로 유명합니다.", image: "kyoto.jpg" },
+                { name: "뉴욕, 미국", description: "뉴욕은 세계적인 도시로서 다양한 문화와 역사가 공존하는 곳입니다. 월가, 자유의 여신상, 센트럴 파크 등이 유명합니다.", image: "new_york.jpg" },
+                { name: "상하이, 중국", description: "상하이는 중국의 경제 중심지로 현대적인 건축물과 전통적인 문화가 공존하는 도시입니다. 상해 타워, 외반구 등이 유명합니다.", image: "shanghai.jpg" },
+                { name: "로마, 이탈리아", description: "로마는 로마 제국의 옛 수도로 역사적인 유적지가 많은 도시입니다. 콜로세움, 바티칸 시국 등이 유명합니다.", image: "rome.jpg" },
+                { name: "시드니, 호주", description: "시드니는 호주의 대도시로서 아름다운 해변과 현대적인 건축물이 공존하는 곳입니다. 시드니 오페라하우스가 유명합니다.", image: "sydney.jpg"},
+                { name: "카이로, 이집트", description: "카이로는 이집트의 수도로서 고대 문명의 유적이 많은 도시입니다. 피라미드, 스핑크스 등이 유명합니다.", image: "cairo.jpg" },
+                { name: "리스본, 포르투갈", description: "리스본은 포르투갈의 수도로서 아름다운 해안과 오래된 건물이 함께 조화를 이루는 도시로 유명합니다.", image: "lisbon.jpg"},
+            ];
+
+            var randomIndex = Math.floor(Math.random() * places.length);
+            var recommendedPlace = places[randomIndex];
+
+            document.getElementById('recommended-place').textContent = "추천 여행지: " + recommendedPlace.name;
+            document.getElementById('place-name').textContent = recommendedPlace.name;
+            document.getElementById('place-description').textContent = recommendedPlace.description;
+            document.getElementById('place-image').src = recommendedPlace.image;
+
+            document.getElementById('place-details').style.display = "block";
+        });
+    </script>
+</body>
+</html>
+    
